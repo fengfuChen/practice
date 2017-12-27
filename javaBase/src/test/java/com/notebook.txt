@@ -1,0 +1,90 @@
+Linux
+    开源的， 服务器端
+    目录结构：/ ---> etc     home    mnt
+    命令: pwd cd ls cp  rm clear
+
+相对路径和绝对路径
+
+.java 编译-> 字节码文件.class  JVM ->  操作系统
+
+JVM(java虚拟机)
+JDK(java开发工具包)
+JRE(java运行环境)
+
+
+
+环境变量
+    Linux --> /etc/profile
+              cat /etc/profile
+              export JAVA_HOME = /opt/jdk
+              export CLASSPATH = . (类的搜索路径)
+              export PATH = ./opt/jdk/bin:$PATH
+    windows -->
+                JAVA_HOME: 略
+                CLASS_PATH: .;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar;
+                PATH: %JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;
+
+workspace
+
+变量
+
+基本数据类型 8种
+    整数  : byte, short, int, long
+    浮点数: float, double
+    char    boolean
+
+    bit比特 --> 负数的补码是该 数 绝 对 值 的 原 码 按 位 取 反 ,然 后 对 整个数 加 1
+                0,1  第一位是符号位，0表示正数,
+                http://blog.163.com/yurong_1987@126/blog/static/47517863200911314245752/
+
+    byte    1字节(8bit)   -2^7 -- 2^7-1   -128   127
+    short   2字节(16位)
+    int     4字节         -2^31 -- 2^31-1
+    long    8字节         -2^63 -- 2^63-1
+    float   4字节
+    double  8字节
+    char    2字节     unicode
+    boolean 1字节
+
+运算符     +, -, *, %, /, ++, --
+           >, <, >=, <=.  ==, !=
+           &&, ||, !
+           三目
+
+分支结构
+if else
+switch(整数表达式){
+    case 值1: 语句1
+        break;
+    case 值2: 语句2
+        break;
+    ......
+    defult:
+       语句n;
+}
+
+循环结构
+while(boolean 表达式){
+    语句块;
+}
+
+do{} while()
+
+for(;;){
+}
+
+
+break 和 continue
+
+数组: 相同数据类型的元素的集合
+    声明 int[] arr = new int [10];
+    声明同时赋值 int[] arr = {1, 2, 3, 4};
+
+    复制  System.arraycopy(), Arrays.copyOf()
+    扩容 --> 新建更大长度数组并复制源数据
+
+
+算法
+     数组冒泡
+     数组冒泡排序
+     Arrays.sort() 排序
