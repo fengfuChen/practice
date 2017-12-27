@@ -8,5 +8,7 @@
     <artifactId>practice</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
+    <modules>
+        <module>javaBase</module>
+    </modules>
 </project>
