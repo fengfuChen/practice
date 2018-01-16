@@ -1,0 +1,12 @@
+
+
+集合框架 Collections
+List
+Set
+Queue
+Iterator 迭代器       增强型for 循环是迭代器的一种写法, 编译器会转换成迭代器模式
+
+排序  Collections.sort()
+    匿名内部类Comparator 接口 回调 compare 方法
+    Bean 实现 Comparable 接口 compareTo 方法
+jdk1.5的concurrent包还有1.8对它的优化要去看的
