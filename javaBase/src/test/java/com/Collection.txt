@@ -1,0 +1,48 @@
+
+
+集合框架 Collection
+List
+Set
+Queue
+Iterator 迭代器       增强型for 循环是迭代器的一种写法, 编译器会转换成迭代器模式
+
+排序  Collections.sort()
+    匿名内部类Comparator 接口 回调 compare 方法
+    Bean 实现 Comparable 接口 compareTo 方法
+
+
+Set
+    Set它表示数学意义上的集合概念。不包含重复的元素,
+    由于Set接口提供的数据结构是数学意义上集合概念的抽象，因此它需要支持对象的添加、删除，而不需提供随机访问。
+
+    HashSet 类和 TreeSet 类
+    HashSet 无序;    TreeSet 有序;
+
+    List 允许重复, 有序集合
+    Linked 改快读慢
+    Array 读快改慢
+    Hash 两都之间
+
+    Collection是集合接口
+    |————Set子接口:不允许重复, TreeSet 有序, HashSet 无序。
+    |————List子接口:有序，可以有重复元素。
+
+    区别：Collections是集合类
+
+    Set和List对比：
+    Set：检索元素效率低下，删除和插入效率高，插入和删除不会引起元素位置改变。
+    List：和数组类似，List可以动态增长，查找元素效率高，插入删除元素效率低，因为会引起其他元素位置改变。
+
+    Set和List具体子类：
+    Set
+     |————HashSet：以哈希表的形式存放元素，插入删除速度很快, 无序。
+     |————TreeSet：以二叉树的形式存放元素，有序
+
+    List
+     |————ArrayList：动态数组
+     |————LinkedList：链表、队列、堆栈。
+
+    Vector是一种老的动态数组，是线程同步的，效率很低，一般不赞成使用。
+
+     HashMap 允许null为key 和value, 无序, 不同步
+     Hashtable 不允许null, 线程同步
