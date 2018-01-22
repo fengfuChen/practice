@@ -3,3 +3,38 @@ File 类
     -- listFiles  子文件
 
 
+
+    输入: 从外界进入程序, 读取外界的数据时使用
+    输出: 从程序发送到外界的方向, 写出数据到外界时使用
+
+    节点流: 低级流, 可以冲或向一个特定的地方读写数据
+    处理流: 高级流,是对一个已存在的流的连接和封装, 通过所封装的流的功能调用实现数据读写,
+        构造方法是要带一个其他的流的对象做参数,
+    流的链接: 一个流对象经过其他流的多次包装, 称为流的链接
+
+    InputStream: 字节输入流的父类, read()
+    OutputStram: 字节输出流的父类, write()
+
+    文件流: FileOutputStream    FileInputStream
+    缓冲流: BufferedOutputStream     BufferedInputStream
+    BufferedOutputStream.flush() // 清空缓冲区,强制写出数据
+
+    序列化:
+        对象是存在内存中的, 有时候我们需要将对象保存到硬盘中, 有时又需要将对象传输到另一台计算机上等等,
+        这时需要将对象转换为一个字节序列, 这个过程就叫做对象序列化. 相反将字节序列转化为对象叫做反序列化.
+
+    ObjectOutputStream 对对象进行序列化的输出流
+    ObjectInputStream 对象反序列化的输入流
+
+    Serializable 接口, 可序列化的标志, serialVersionUID 跨平台时必须显示声明版本号.
+    transient 瘦身,序列化时将忽略此属性值
+
+
+    Reader: 字符输入流的父类,
+        常用子类InputStreamReader 字符输入流
+        BufferedReader 缓冲字符输入流
+    Write: 字符输出流的父类,
+        常用子类: OutputStreamReader 字符数据流
+        PrintWriter 自动行刷新的缓冲字符输出流
+
+
