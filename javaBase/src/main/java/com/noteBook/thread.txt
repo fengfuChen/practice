@@ -1,0 +1,65 @@
+http://www.importnew.com/21136.html
+
+Thread
+    进程: 操作系统中运行的一个任务, 进程(process)是一块包含了某些资源的内存区域, 操作系统利用进程把他的工作划分为一些功能单元
+    线程: 进程中包含的一个或多个执行单元,,进程拥有一个私有的虚拟存储空间, 该空间只能被进程包含的线程所访问.
+
+    线程使用的场合:一个程序中需要同时完成多个任务的情况,可以将每个任务定义为一个线程, 得一同时完成
+    优点: 速度快
+    并发
+    同步 : 有先有后, 排队来
+    异步 : 多线程并发操作, 各干各的
+
+
+
+    new --> start() -->    Runnable    --获取cpu-->                Running --> run()结束--> Dead ---->GC 垃圾回收
+
+        Running --> ------> 剥夺, 让出yield() 暂停 ----->       Runnable ---> ......
+        Running --> IO wait --> IO Block --> IO 完成 -->        Runnable ---> ......
+        Running --> sleep() --> Sleep Block --> interrupt()中断--> Runnable ---> ......
+        Running --> ---> -----> Wait Block --> 超时 --> Runnable ---> ......
+
+
+        java thread的运行周期中, 有几种状态, 在 java.lang.Thread.State 中有详细定义和说明:
+        new 状态是指线程刚创建, 尚未启动
+        runnable 状态是线程正在正常运行中, 当然可能会有某种耗时计算/IO等待的操作/CPU时间片切换等, 这个状态下发生的等待一般是其他系统资源, 而不是锁, Sleep等
+        blocked  这个状态下, 是在多个线程有同步操作的场景, 比如正在等待另一个线程的synchronized 块的执行释放, 或者可重入的 synchronized块里别人调用wait() 方法,
+            也就是这里是线程在等待进入临界区
+        waiting  这个状态下是指线程拥有了某个锁之后, 调用了他的wait方法,等待其他线程/锁拥有者调用 notify / notifyAll 一遍该线程可以继续下一步操作,
+            这里要区分 BLOCKED 和 WATING 的区别, 一个是在临界点外面等待进入, 一个是在临界点里面wait等待别人notify, 线程调用了join方法 join了另外的线程的时候, 也会进入WAITING状态, 等待被他join的线程执行结束
+        timed_waiting  这个状态就是有限的(时间限制)的WAITING, 一般出现在调用wait(long), join(long)等情况下, 另外一个线程sleep后, 也会进入TIMED_WAITING状态
+        terminated 这个状态下表示 该线程的run方法已经执行完毕了, 基本上就等于死亡了(当时如果线程被持久持有, 可能不会被回收)
+
+创建（new）状态: 准备好了一个多线程的对象
+就绪（runnable）状态: 调用了start()方法, 等待CPU进行调度
+运行（running）状态: 执行run()方法
+阻塞（blocked）状态: 暂时停止执行, 可能将资源交给其它线程使用
+终止（dead）状态: 线程销毁
+
+        守护线程:
+            setDaemon(boolean),    , 所有守护线程强制终止
+
+        sleep(long ms) 休眠,进入阻塞状态, 休眠结束重新进入Runnable状态
+        yield()     当前线程主动让出CPU时间片回到Runnable状态, 等待分配时间片
+        join() 等待当前线程结束
+
+        Thread.currentThread() 获取当前运行的线程
+        getId(), getName, getState(), isAlive() isDaemon(), isInterrupted()
+        getPriority() 线程优先级
+
+        synchronized 关键字 锁
+
+线程池: ExecutorService
+        控制线程数量, 重用线程
+        ExecutorService.newCachedThreadPool() 创建一个可根据需要创建新线程的线程池, 但是在以前构建的线程可用时将重用他们.
+        ExecutorService.newFixedThreadPool(int nThreads) 创建一个可重用固定线程集合的线程池, 以共享的无界队列方式来运行这些线程.
+        ExecutorService.newScheduledThreadPool(int corePoolSize) 创建一个线程池, 他可安排在给定延迟后运行命令或者定期地执行.
+        ExecutorService.newSingleThreadExecutor() 创建一个使用单个worker 线程的Executor, 以无界队列方式来运行该线程.
+
+
+队列
+    BlockingQueue       双缓冲队列
+    ArrayBlockingQueue     规定大小的BlockingQueue, 先入先出(FIFO)
+    LinkedBlockingQueue    默认大小为Integer.Max_VALUE的BlockingQueue, 先入先出(FIFO)
+    PriorityBlockingQueue  依据对象的自然排序顺序, 或者构造函数的Comparator决定顺序
+    SynchronousQueue        特殊的BlockingQueue, 操作必须是放和取交替完成.
