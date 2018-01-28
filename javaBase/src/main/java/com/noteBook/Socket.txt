@@ -1,0 +1,12 @@
+TCP:
+
+
+
+UDP:
+
+接收包/发送包:
+    DatagramPacket
+    发送包构建是需要目标地址和端口
+
+
+DatagramSocket  用于接收和发送UDP的Socket实例
