@@ -54,32 +54,3 @@ Thread
         ExecutorService.newFixedThreadPool(int nThreads) 创建一个可重用固定线程集合的线程池, 以共享的无界队列方式来运行这些线程.
         ExecutorService.newScheduledThreadPool(int corePoolSize) 创建一个线程池, 他可安排在给定延迟后运行命令或者定期地执行.
         ExecutorService.newSingleThreadExecutor() 创建一个使用单个worker 线程的Executor, 以无界队列方式来运行该线程.
-
-
-队列
-    BlockingQueue       双缓冲队列
-    ArrayBlockingQueue     规定大小的BlockingQueue, 先入先出(FIFO)
-    LinkedBlockingQueue    默认大小为Integer.Max_VALUE的BlockingQueue, 先入先出(FIFO)
-    PriorityBlockingQueue  依据对象的自然排序顺序, 或者构造函数的Comparator决定顺序
-    SynchronousQueue       特殊的BlockingQueue, 操作必须是放和取交替完成.
-
-    队列的使用，一种是基于内存的，一种是基于数据库的。
-         首先，我们来看看基于内存的队列。在Java的并发包中已经提供了BlockingQueue的实现，
-         比较常用的有ArrayBlockingQueue和LinkedBlockingQueue，前者是以数组的形式存储，后者是以Node节点的链表形式存储。至于数组和链表的区别这里就不多说了。
-    BlockingQueue 队列常用的操作方法:
-          1.往队列中添加元素: add(), put(), offer()
-          2.从队列中取出或者删除元素: remove() element()  peek()   pool()  take()
-    每个方法的说明如下：
-          offer()方法往队列添加元素如果队列已满直接返回false,队列未满则直接插入并返回true;
-          add()方法是对offer()方法的简单封装.如果队列已满,抛出异常new IllegalStateException("Queue full");
-          put()方法往队列里插入元素,如果队列已经满,则会一直等待直到队列为空插入新元素,或者线程被中断抛出异常.
-          remove()方法直接删除队头的元素:
-          peek()方法直接取出队头的元素,并不删除.
-          element()方法对peek方法进行简单封装,如果队头元素存在则取出并不删除,如果不存在抛出异常NoSuchElementException()
-          pool()方法取出并删除队头的元素,当队列为空,返回null;
-          take()方法取出并删除队头的元素,当队列为空,则会一直等待直到队列有新元素可以取出,或者线程被中断抛出异常
-
-    offer()方法一般跟pool()方法相对应, // 添加元素, 返回true和 false;  取出队列头元素并删除, 无头元素则返回null;  常用
-    put()方法一般跟take()方法相对应 // (等待)插入元素;  获取队列头元素并删除, 无则等待获取直到取到或抛错
-
-    .日常开发过程中offer()与pool()方法用的相对比较频繁.

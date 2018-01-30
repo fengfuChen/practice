@@ -1,0 +1,42 @@
+Queue
+http://blog.csdn.net/lzy_lizhiyang/article/details/48311925
+// https://www.cnblogs.com/lemon-flm/p/7877898.html
+
+队列
+    BlockingQueue       双缓冲队列
+    ArrayBlockingQueue     规定大小的BlockingQueue, 先入先出(FIFO)
+    LinkedBlockingQueue    默认大小为Integer.Max_VALUE的BlockingQueue, 先入先出(FIFO)
+    PriorityBlockingQueue  依据对象的自然排序顺序, 或者构造函数的Comparator决定顺序
+    SynchronousQueue       特殊的BlockingQueue, 操作必须是放和取交替完成.
+
+    如果是一些及时消息的处理，并且处理时间很短的情况下是不需要使用队列的，直接阻塞式的方法调用就可以了。
+        但是，如果在消息处理的时候特别费时间，这个时候如果有新的消息来了，就只能处于阻塞状态，造成用户等待。
+        这个时候在项目中引入队列是十分有必要的。当我们接受到消息后，先把消息放到队列中，然后再用新的线程进行处理，这个时候就不会有消息的阻塞了
+    队列的使用，一种是基于内存的，一种是基于数据库的。
+
+         首先，我们来看看基于内存的队列。在Java的并发包中已经提供了BlockingQueue的实现，
+         比较常用的有ArrayBlockingQueue和LinkedBlockingQueue，前者是以数组的形式存储，后者是以Node节点的链表形式存储。至于数组和链表的区别这里就不多说了。
+    BlockingQueue 队列常用的操作方法:
+          1.往队列中添加元素: add(), put(), offer()
+          2.从队列中取出或者删除元素: remove() element()  peek()   pool()  take()
+    每个方法的说明如下：
+          offer()方法往队列添加元素如果队列已满直接返回false,队列未满则直接插入并返回true;
+          add()方法是对offer()方法的简单封装.如果队列已满,抛出异常new IllegalStateException("Queue full");
+          put()方法往队列里插入元素,如果队列已经满,则会一直等待直到队列为空插入新元素,或者线程被中断抛出异常.
+          remove()方法直接删除队头的元素:
+          peek()方法直接取出队头的元素,并不删除.
+          element()方法对peek方法进行简单封装,如果队头元素存在则取出并不删除,如果不存在抛出异常NoSuchElementException()
+          pool()方法取出并删除队头的元素,当队列为空,返回null;
+          take()方法取出并删除队头的元素,当队列为空,则会一直等待直到队列有新元素可以取出,或者线程被中断抛出异常
+
+    offer()方法一般跟pool()方法相对应, // 添加元素, 返回true和 false;  取出队列头元素并删除, 无头元素则返回null;  常用
+    put()方法一般跟take()方法相对应 // (等待)插入元素;  获取队列头元素并删除, 无则等待获取直到取到或抛错
+
+    .日常开发过程中offer()与pool()方法用的相对比较频繁.
+
+
+
+    基于内存的队列，队列的大小依赖于JVM内存的大小，一般如果是内存占用不大且处理相对较为及时的都可以采用此种方法。
+        如果你在队列处理的时候需要有失败重试机制，那么用此种队列就不是特别合适了。
+
+    基于数据库的队列，很好理解，就是接收到消息之后，把消息存入数据库中，设置消费时间、重试次数等，再用新的线程从数据库中读取信息，进行处理
