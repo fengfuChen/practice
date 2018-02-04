@@ -2,6 +2,8 @@ TODO
 
 jdk1.5的concurrent包还有1.8对它的优化要去看的
 
+缓存redis  Memcached
+
 序列
 堆栈
 线程
@@ -10,3 +12,8 @@ jdk1.5的concurrent包还有1.8对它的优化要去看的
 图片存储, 下载
 Base64
 加解码
+
+
+JSP 语法
+servlet 上下文, 转发, 重定向, 会话, cookie
+异常
