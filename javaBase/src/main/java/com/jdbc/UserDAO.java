@@ -2,6 +2,7 @@ package com.jdbc;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.sql.*;
 
 public class UserDAO {
@@ -49,6 +50,26 @@ public class UserDAO {
             preparedStatement.close();
             // DBUtils.closeConnection(conn);
         }
+    }
+
+
+    public void transaction() throws IOException, SQLException {
+        Connection conn = DBUtils.getConnection();
+        String sql = "";
+        Statement statement = conn.createStatement();
+        boolean autoCommit = conn.getAutoCommit();
+        conn.setAutoCommit(false);
+        statement.execute(sql);
+        conn.commit();
+        conn.setAutoCommit(autoCommit);
+    }
+
+    public void bath() throws SQLException, IOException {
+        Connection conn = DBUtils.getConnection();
+        String sql = "";
+        PreparedStatement prepareStatement = conn.prepareStatement(sql);
+        prepareStatement.addBatch(sql);
+        prepareStatement.executeBatch();
     }
 
 
