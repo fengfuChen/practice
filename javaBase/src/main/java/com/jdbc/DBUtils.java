@@ -3,49 +3,54 @@ package com.jdbc;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
 public class DBUtils {
-    private static String driver = null;
-    private static String url = null;
-    private static String user = null;
-    private static String password = null;
-    private static BasicDataSource ds = null; // 数据源
 
-    static {
+    private static BasicDataSource dataSource = null; // 数据库连接池
+
+//     Class.forName(driver); Connection conn = DriverManager.getConnection(url, user, pwd)
+
+    public static void init() throws IOException {
         Properties props = new Properties();
         try {
             String path = "./src/main/java/com/jdbc/db.properties";
-// props.load(DBUtils.class.getClassLoader().getResourceAsStream("./com/jdbc/db.properties")); // 默认是从ClassPath根下获取文件
-// props.load(DBUtils.class.getResourceAsStream("./db.properties")); // .class文件为根目录
+            // props.load(DBUtils.class.getClassLoader().getResourceAsStream("./com/jdbc/db.properties")); // 默认是从ClassPath根下获取文件
+            // props.load(DBUtils.class.getResourceAsStream("./db.properties")); // .class文件为根目录
             props.load(new FileInputStream(path));
-            driver = props.getProperty("driver");
-            url = props.getProperty("url");
-            user = props.getProperty("user");
-            password = props.getProperty("password");
-            ds = new BasicDataSource();
-            ds.setDriverClassName(driver);
-            ds.setUrl(url);
-            ds.setUsername(user);
-            ds.setPassword(password);
-            ds.setInitialSize(Integer.parseInt(props.getProperty("initialSize"))
-            );
+            String driver = props.getProperty("driver");
+            String url = props.getProperty("url");
+            String user = props.getProperty("user");
+            String password = props.getProperty("password");
+            dataSource = new BasicDataSource();
+            dataSource.setDriverClassName(driver);
+            dataSource.setUrl(url);
+            dataSource.setUsername(user);
+            dataSource.setPassword(password);
+            dataSource.setInitialSize(Integer.parseInt(props.getProperty("dataSource.initialSize"))); // 初始化连接数
+            dataSource.setMinIdle(Integer.parseInt(props.getProperty("dataSource.minIdle")));// 最小空闲连接
+            dataSource.setMaxIdle(Integer.parseInt(props.getProperty("dataSource.maxIdle"))); // 最大空闲连接
+            dataSource.setMaxWait(Long.parseLong(props.getProperty("dataSource.maxWait"))); // 最大等待时间
+            dataSource.setMaxActive(Integer.parseInt(props.getProperty("dataSource.maxActive"))); // 最大连接数
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public static Connection getConnection() throws SQLException {
+    public static synchronized Connection getConnection() throws SQLException , IOException{
         Connection conn = null;
-        if (ds != null) {
-            conn = ds.getConnection();
+        if (dataSource == null) {
+            init();
+        }else {
+            conn = dataSource.getConnection();
         }
         return conn;
     }
 
-    public static void closeConnection(Connection conn) throws SQLException {
+    public static synchronized void  closeConnection(Connection conn) throws SQLException {
         if (conn != null) {
             conn.close();
         }
