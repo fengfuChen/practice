@@ -30,3 +30,8 @@ Spring
 失血模型, 充血模型
 懒汉, 饿汉, 工厂, 消费者......
 空间复杂度, 时间复杂度
+
+spring scope="singleton" 默认单例, 饥汉?饱汉
+
+MVC
+ bean Vaildation

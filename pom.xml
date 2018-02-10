@@ -12,5 +12,6 @@
     <modules>
         <module>javaBase</module>
         <module>servletDemo</module>
+        <module>spring-ioc</module>
     </modules>
 </project>

@@ -1,0 +1,35 @@
+
+spring  IOC
+    构造器实例化
+    静态工厂方法实例化
+    实例工厂方法实例化
+
+    lazy-init="true" -- 延迟加载, 需要时加载, spring 默认容器启动时加载bean
+
+    bean的作用域
+    scope="singleton" 单列 (默认)
+    scope="prototype" 非单例
+    scope="request"  单次http请求中单例
+    scope="session"  在同一Http session中单例
+
+    depends-on="bean1, bena2...." bean 依赖关系
+
+
+注解标记
+    @Component 通用注解
+    @Repository 持久化层组件注解
+    @Service  业务层注解
+    @Controller 控制层组件注解
+
+    @Scope("") 作用域
+    @PostConstruct 初始化方法
+    @PreDestroy 销毁回调方法
+
+    依赖注入关系
+    @Resource(name = "")
+
+    @Autowired 默认按照类型匹配; @Qualifier("beanId") -- Autowired 搭配Qualifier防止注入失败
+
+    @Inject    @Named("beanName") -- Spring3.0 开始使用, JSR-330标准
+
+    @Required set方法的注解, 表示bean必须注入一个对象
