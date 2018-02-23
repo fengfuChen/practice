@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+	<!-- SimpleUrlHandlerMapping start -->
+	<bean id="controllerDemo" class="com.controller.ControllerDemo"></bean>
+	<!--  请求处理映射 handleMapping -->
+	<bean id="handleMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/hello">controllerDemo</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 视图解析器 ViewResolver-->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INFO/jsp"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+	<!-- SimpleUrlHandlerMapping end -->
+
+
+	<!-- beanNameUrlHandlerMapping start
+	<bean name="/hello" class="com.controller.ControllerDemo"></bean>
+	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"></bean>
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INFO/jsp"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+	 - BeanNameUrlHandlerMapping end -->
+
+	<!-- 注解
+	<context:component-scan base-package="com"/>
+	<mvc:annotation-driven/>
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INFO/jsp"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	-->
+
+
+
+</beans>

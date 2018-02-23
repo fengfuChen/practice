@@ -1,0 +1,28 @@
+M   model
+V   view
+C   controller
+
+
+
+核心类:
+DispatcherServlet
+HandleMapping
+Controller
+ModelAndView
+ViewResolver
+
+
+HandlerMapping
+    BeanNameUrlHandlerMapping
+        - 将收到的HTTP请求直接映射到Controller定义的名称上
+    SimpleUrlHandlerMapping
+        - 维护一个http请求和Controller映射关系列表, 根据表对应关系调用Controller
+
+ViewResolver
+    UrlBasedViewResolver
+        - 将视图名直接解析成对应的URL, 不需要显示的映射定义, 如果你的视图名和视图资源的名字是一致的吗就可使用该解析器, 而无需进行映射
+    InternalResourceViewResolver
+        - UrlBasedViewResolver的子类, 它支持InternalResourceView(对Servlet和JSP的包装), 以及其子类JstView 和 TilesView响应类型
+    XmlViewResolver
+        - 支持xml文件定义具体的响应视图文件
+        - VelocityViewResolver/ FreeMarkerViewResolver  UrlBasedViewResolverde 子类, 它能支持Velocity 和 FreeMarker等视图技术

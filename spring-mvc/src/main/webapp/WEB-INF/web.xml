@@ -12,8 +12,9 @@
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <!-- 对应上一步创建全局配置文件的文件名以及目录 -->
-      <param-value>classpath:springMVC.xml</param-value>
+      <param-value>classpath:spring-mvc.xml</param-value>
     </init-param>
+    <load-on-startup>1</load-on-startup> <!-- 启动容器时初始化 -->
   </servlet>
 
   <servlet-mapping>
