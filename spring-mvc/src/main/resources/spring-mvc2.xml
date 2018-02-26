@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:mvc="http://www.springframework.org/schema/mvc"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+
+
+	<context:component-scan base-package="com"/>
+	<mvc:annotation-driven/>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/hello/*" /> <!--拦截的请求-->
+			<!--<mvc:exclude-mapping path ="hello/login" /> 放行的请求-->
+			<bean class="com.frm.GlobalInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INFO/jsp"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+
+	<!-- 自定义异常的实现类 -->
+	<bean id="exceptionHandler" class="com.frm.MyExceptionHandler"/>
+	<!-- 默认的实现类注入 -->
+	<bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<!-- 为所有的异常定义默认的异常处理页面，exceptionMappings未定义的异常使用本默认配置 -->
+		<property name="defaultErrorView" value="error"></property>
+		<!-- 定义异常处理页面用来获取异常信息的变量名，默认名为ex -->
+		<property name="exceptionAttribute" value="ex"></property>
+		<!-- 定义需要特殊处理的异常，用类名或完全路径名作为key，异常页文件名作为值，将不同的异常映射到不同的页面上。　 -->
+		<property name="exceptionMappings">
+			<props>
+				<prop key="IOException">error/ioexp</prop>
+				<prop key="java.sql.SQLException">error/sqlexp</prop>
+			</props>
+		</property>
+	</bean>
+
+
+
+
+
+</beans>
