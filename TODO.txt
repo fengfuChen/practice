@@ -35,3 +35,10 @@ spring scope="singleton" 默认单例, 饥汉?饱汉
 
 MVC
  bean Vaildation
+
+
+
+Spring 对dao 的支持
+    JdbcDaoSupport
+        JdbcTemplate    DataSource
+    HibernateDaoSupport
