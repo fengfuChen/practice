@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:tx="http://www.springframework.org/schema/tx" 
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:mvc="http://www.springframework.org/schema/mvc"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+	<mvc:annotation-driven/>
+	
+	<context:component-scan base-package="org"/>
+	
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" 
+			value="/WEB-INF/jsp/">
+		</property>
+		<property name="suffix" value=".jsp">
+		</property>
+	</bean>
+	
+	<bean id="dbcpDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="username" value="openlab" />
+		<property name="password" value="open123" />
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="url" value="jdbc:oracle:thin:@192.168.0.26:1521:tarena" />
+		<property name="maxActive" value="5" />
+	</bean>
+	
+	 <!-- mybatis相关配置 -->
+	 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	 	<property name="dataSource" ref="dbcpDataSource"></property>
+	 	<!-- <property name="mapperLocations" value="classpath:org/tarena/entity/*.xml" /> --> <!-- 指定文件存放位置 ， 当Mapper 接口和Mapper 文件处于同一位置时不可以不用指定-->
+		 <!--<property name="configLocation" ref="..."/> 指定mybatis 配置文件位置-->
+		 <!--<property name="typeAliasesPackage" value="." /> 包别名 -->
+
+	 </bean>
+
+	<!--
+	<bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+		<property name="mapperInterface" value=""></property>  Mapper 接口地址
+	</bean>
+	-->
+
+	 <!-- 注解 将org.tarena.dao下的接口生成Dao实例放入Spring容器 -->
+	 <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	 	<property name="basePackage" value="org.tarena.dao" />
+		 <!--<property name="annotationClass" value=""/> 只注册使用了annotationClass value 注解标记的接口
+		 <property name="markerInterface" value=""/> 只注册继承 markerInterface value 的接口-->
+	 </bean>
+	 
+	 
+	 
+	 
+	 
+	
+</beans>

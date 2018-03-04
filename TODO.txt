@@ -50,3 +50,10 @@ Mybatis
         -- 负责加载SqlMapperConfig.xml配置文件构建SqlSessionFactory实例
     SqlSession
         -- 该对象包含了所有执行sql的操作方法， 执行已映射的SQL语句
+
+
+spring - mybatis
+    SqlSessionFactoryBean
+    MapperFactoryBean
+    MapperScannerConfigure
+
