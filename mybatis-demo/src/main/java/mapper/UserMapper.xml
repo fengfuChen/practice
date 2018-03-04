@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.UserMapper">
+
+    <select id="selectUserById" resultType="com.ys.po.User" parameterType="int">
+        select * from sys_user where id = #{id}
+    </select>
+
+
+    <!-- 查询 user 表的所有数据
+        注意：因为是查询所有数据，所以返回的应该是一个集合,这个集合里面每个元素都是User类型
+     -->
+    <select id="selectUserAll" resultType="com.ys.po.User">
+        select * from sys_user
+    </select>
+
+    <!-- 模糊查询：根据 user 表的username字段
+            下面两种写法都可以，但是要注意
+            1、${value}里面必须要写value，不然会报错
+            2、${}表示拼接 sql 字符串，将接收到的参数不加任何修饰拼接在sql语句中
+            3、使用${}会造成 sql 注入
+     -->
+    <select id="selectLikeUserName" resultType="com.ys.po.User" parameterType="String">
+        select * from user where username like '%${value}%'
+        <!-- select * from user where username like #{username} -->
+    </select>
+
+</mapper>

@@ -1,19 +1,14 @@
-package com.bean;
+package bean;
 
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
-// bean validation
+
 public class User implements Serializable {
     private static final long serialVersionUID = 3468958140956309607L;
 
-    @NotNull
     private Long id;
     private String loginName;//用户名
     private String phone;//登录手机号
@@ -25,7 +20,6 @@ public class User implements Serializable {
     private Integer sex;
     private String headUrl;//用户头像
     private String idCard;
-    @Size(min = 0, max = 200, message = "年龄必须在{min} 和 {max} 之间")
     private Integer age;
     private String address;
     private String token;
@@ -45,7 +39,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    // ...... get set
+    public User(String loginName, String phone, String password, Long salt) {
+        this.loginName = loginName;
+        this.phone = phone;
+        this.password = password;
+        this.salt = salt;
+    }
 
     public Long getId() {
         return id;
@@ -190,5 +189,4 @@ public class User implements Serializable {
     public void setLastLoginTime(Date lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
     }
-
 }

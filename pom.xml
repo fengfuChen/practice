@@ -14,5 +14,6 @@
         <module>servletDemo</module>
         <module>spring-ioc</module>
         <module>spring-mvc</module>
+        <module>mybatis-demo</module>
     </modules>
 </project>

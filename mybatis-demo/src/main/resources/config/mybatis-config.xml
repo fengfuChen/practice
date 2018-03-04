@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 注意：environments标签，当mybatis和spring整合之后，这个标签是不用配置的 -->
+
+    <!-- 可以配置多个运行环境，但是每个 SqlSessionFactory 实例只能选择一个运行环境
+      一、development:开发模式
+       二、work：工作模式-->
+    <environments default="development">
+        <!--id属性必须和上面的default一样  -->
+        <environment id="development">
+            <!--事务管理器
+                一、JDBC：这个配置直接简单使用了 JDBC 的提交和回滚设置。它依赖于从数据源得到的连接来管理事务范围
+                二、MANAGED：这个配置几乎没做什么。它从来不提交或回滚一个连接。而它会让容器来管理事务的整个生命周期
+                    比如 spring 或 JEE 应用服务器的上下文，默认情况下，它会关闭连接。然而一些容器并不希望这样，
+                    因此如果你需要从连接中停止它，就可以将 closeConnection 属性设置为 false，比如：
+                    <transactionManager type="MANAGED">
+                        <property name="closeConnection" value="false"/>
+                    </transactionManager>
+              -->
+            <transactionManager type="JDBC"/>
+            <!--dataSource 元素使用标准的 JDBC 数据源接口来配置 JDBC 连接对象源  -->
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://192.168.3.85:3306/electrombile"/>
+                <property name="username" value="root"/>
+                <property name="password" value="root"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+
+    <mappers>
+        <!-- 注册userMapper.xml文件 -->
+
+        <!--
+        一 依据 Mapper 类 具体路径 配置 Mapper
+        这种情况下，如果是非注解模式的话xml配置文件必须和这个类在同一级目录，且与Mapper类同名
+         class 级别的指定
+        <mapper class="com.bestcxx.stu.springmvc.mapper.UserModelMapper"/>
+        <mapper class="com.bestcxx.stu.springmvc.mapper.UserModelTwoMapper"/>
+        -->
+
+
+        <!--
+         二 依据 Mapper 类所在的package包路径 配置 Mapper
+        这种情况下，如果是非注解模式的话xml配置文件必须也处于同一级 package 下，且与Mapper类同名
+         -->
+        <package name="com.bestcxx.stu.springmvc.mapper"/>
+
+        <!--
+        三 把 Mapper 的xml配置文件单独放置到 resources 中，和Mapper 类分开了
+        这种方式的好处是便于统一管理 xml 配置文件，不好的的地方是无法使用注解模式了
+         使用这个方案，可以单独指定Mapper的位置
+        <mapper resource="mybatis/mappings/UserModelMapper.xml"/>
+        <mapper resource="mybatis/mappings/UserModelTwoMapper.xml"/>
+        -->
+
+        <!-- 第四种，直接在spring中配置Mapper的路径，但是mybatis.xml还是必不可少的
+        在sqlSessionFactory中设定 mybitas的xml和aliases
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+            <property name="dataSource" ref="dataSource" />
+            <property name="typeAliasesPackage" value="实体类包路径" />
+            <property name="typeAliasesSuperType" value="实体类顶级包路径" />
+            <property name="mapperLocations" value="classpath:/mybatis/mappings/**/*.xml" /> sql语句
+            <property name="configLocation" value="classpath:/mybatis/mybatis-config.xml"></property> mybatis 配置
+        </bean>
+
+        设置Mapper类
+         MustConfigPoint 扫描basePackage下所有以@MyBatisDao注解的接口
+        <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+            <property name="basePackage" value="mapper类的包路径" />
+            <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+            <property name="annotationClass" value="com.msyd.framework.common.persistence.annotation.MyBatisDao" />
+        </bean>
+        -->
+    </mappers>
+
+</configuration>
