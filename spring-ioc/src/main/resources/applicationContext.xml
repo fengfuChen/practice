@@ -8,33 +8,47 @@
 	<!--1、 创建目标类 -->
 	<bean id="user" class="com.bean.User"></bean>
 
-	<!--3、aop编程
+	<!--
+	3、aop编程
 	3.1 导入命名空间
 	3.2 使用 <aop:config>进行配置
-	proxy-target-class="true" 声明时使用cglib代理
-	如果不声明，Spring 会自动选择cglib代理还是JDK动态代理
-	<aop:pointcut> 切入点 ，从目标对象获得具体方法
-	<aop:advisor> 特殊的切面，只有一个通知 和 一个切入点
-	advice-ref 通知引用
-	pointcut-ref 切入点引用
+		proxy-target-class="true" 声明时使用cglib代理, 如果不声明，Spring 会自动选择cglib代理还是JDK动态代理
+		<aop:pointcut> 切入点 ，从目标对象获得具体方法
+		<aop:advisor> 特殊的切面，只有一个通知 和 一个切入点
+		advice-ref 通知引用
+		pointcut-ref 切入点引用
 	3.3 切入点表达式
-	execution(* com.ys.aop.*.*(..))
-	选择方法         返回值任意   包             类名任意   方法名任意   参数任意
-
+		execution(* com.ys.aop.*.*(..))
+		选择方法         返回值任意   包             类名任意   方法名任意   参数任意
 	-->
 
-	<!--
-	创建切面类（通知）
-	<bean id="transaction" class="com.ys.aop.one.MyTransaction"></bean>
+	<!-- 日志切面类 -->
+	<bean id="logAspect" class="com.frm.LogAspect"/>
+	<!-- 第1步： AOP的配置 -->
 	<aop:config>
-	切入点表达式
-	<aop:pointcut expression="execution(* com.ys.aop.*.*(..))" id="myPointCut"/>
-	<aop:aspect ref="transaction">
-	配置前置通知，注意 method 的值要和 对应切面的类方法名称相同
-	<aop:before method="before" pointcut-ref="myPointCut"></aop:before>
-            <aop:after-returning method="after" pointcut-ref="myPointCut"/>
+		<!-- 第2步：配置一个切面 -->
+		<aop:aspect id="logAspect" ref="logAspectBean">
+			<!-- 第3步：定义切入点,指定切入点表达式 -->
+			<!--<aop:pointcut id="allMethod" expression="execution(* com.zxf.service.*.*(..))"/>-->
+			<aop:pointcut id="allMethod" expression="execution(* com.*(..))"/>
+			<!-- 第4步：应用前置通知 -->
+			<aop:before method="before" pointcut-ref="allMethod" />
+			<!-- 第4步：应用后置通知 -->
+			<aop:after-returning method="afterReturn" pointcut-ref="allMethod"/>
+			<!-- 第4步：应用最终通知 -->
+			<aop:after method="after" pointcut-ref="allMethod"/>
+			<!-- 第4步：应用抛出异常后通知 -->
+			<aop:after-throwing method="afterThrowing" pointcut-ref="allMethod"/>
+			<!-- 第4步：应用环绕通知 -->
+			<!--
+            <aop:around method="doAround" pointcut-ref="allMethod" />
+             -->
 		</aop:aspect>
 	</aop:config>
-	-->
+
+	<!-- 把切面类交由Spring容器来管理 -->
+	<bean id="logAspectBean" class="com.frm.LogAnnotationAspect"/>
+	<!-- 启用spring对AspectJ注解的支持 -->
+	<aop:aspectj-autoproxy/>
 
 </beans>
